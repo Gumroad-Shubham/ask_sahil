@@ -1,0 +1,3 @@
+[submodule ".github/CommonWorkflow"]
+	path = .github/CommonWorkflow
+	url = git@github.com:Gumroad-Shubham/Workflows.git
