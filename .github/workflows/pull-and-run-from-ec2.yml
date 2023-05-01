@@ -37,8 +37,8 @@ jobs:
             sudo apt-get update -y &&
             sudo apt  install docker-compose
           fi &&
-          mkdir -p ~/Desktop/{{ env.PROJECT_NAME }} &&
-          cd ~/Desktop/{{ env.PROJECT_NAME }} && 
+          mkdir -p ~/Desktop/${{ env.PROJECT_NAME }} &&
+          cd ~/Desktop/${{ env.PROJECT_NAME }} && 
           # If github.com is not in known hosts, add it
           if ! ssh-keygen -F "github.com" >/dev/null; then
             # Add the host to known_hosts
@@ -68,9 +68,9 @@ jobs:
               echo "Added configuration for github.com to ~/.ssh/config"
             fi
           fi
-          git pull git@github.com:bhamshu/{{ env.PROJECT_NAME }}.git &&
+          git pull git@github.com:bhamshu/${{ env.PROJECT_NAME }}.git &&
           export OPENAI_KEY=${{ env.OPENAI_KEY }} && 
           sudo gpasswd -a $USER docker &&
           newgrp docker &&
-          cd ~/Desktop/{{ env.PROJECT_NAME }} &&
+          cd ~/Desktop/${{ env.PROJECT_NAME }} &&
           docker-compose up --build'
