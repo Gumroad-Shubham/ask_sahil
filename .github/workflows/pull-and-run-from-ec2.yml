@@ -10,6 +10,7 @@ env:
   SSH_USER: ubuntu
   SSH_HOST: ${{ vars.SSH_HOST }}
   OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
+  FOR_AWS_TO_GITHUB: ${{ secrets.FOR_AWS_TO_GITHUB_PVT }}
 
 jobs:
   deploy:
@@ -40,6 +41,28 @@ jobs:
           fi
           ssh-keyscan github.com >> ~/.ssh/known_hosts &&  
           git init &&
+          echo {{ env.FOR_AWS_TO_GITHUB }} >> ~/.ssh/for_aws_to_github &&
+          if [ ! -f ~/.ssh/config ]; then
+            # Create the config file and add the configuration for GitHub
+            touch ~/.ssh/config
+            echo "Host github.com" >> ~/.ssh/config
+            echo "  Hostname      github.com" >> ~/.ssh/config
+            echo "  User          git" >> ~/.ssh/config
+            echo "  IdentityFile  ~/.ssh/for_aws_to_github" >> ~/.ssh/config
+            echo "Created ~/.ssh/config and added configuration for github.com"
+          else
+            # Check if the configuration for GitHub already exists
+            if grep -q "^Host github.com" ~/.ssh/config; then
+              echo "Configuration for github.com already exists in ~/.ssh/config"
+            else
+              # Add the configuration for GitHub to the existing config file
+              echo "Host github.com" >> ~/.ssh/config
+              echo "  Hostname      github.com" >> ~/.ssh/config
+              echo "  User          git" >> ~/.ssh/config
+              echo "  IdentityFile  ~/.ssh/for_aws_to_github" >> ~/.ssh/config
+              echo "Added configuration for github.com to ~/.ssh/config"
+            fi
+          fi
           git pull git@github.com:bhamshu/ask_sahil.git &&
           export OPENAI_KEY=${{ env.OPENAI_KEY }} && 
           sudo gpasswd -a $USER docker &&
