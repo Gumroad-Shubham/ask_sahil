@@ -11,6 +11,7 @@ env:
   SSH_HOST: ${{ vars.SSH_HOST }}
   OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
   FOR_AWS_TO_GITHUB: ${{ secrets.FOR_AWS_TO_GITHUB_PVT }}
+  PROJECT_NAME: ask_sahil
 
 jobs:
   deploy:
@@ -32,8 +33,12 @@ jobs:
             sudo apt-get update -y &&
             sudo apt-get install -y docker.io
           fi &&
-          mkdir -p ~/Desktop/ask_sahil &&
-          cd ~/Desktop/ask_sahil && 
+          if ! command -v docker-compose &> /dev/null; then
+            sudo apt-get update -y &&
+            sudo apt  install docker-compose
+          fi &&
+          mkdir -p ~/Desktop/{{ env.PROJECT_NAME }} &&
+          cd ~/Desktop/{{ env.PROJECT_NAME }} && 
           # If github.com is not in known hosts, add it
           if ! ssh-keygen -F "github.com" >/dev/null; then
             # Add the host to known_hosts
@@ -63,8 +68,9 @@ jobs:
               echo "Added configuration for github.com to ~/.ssh/config"
             fi
           fi
-          git pull git@github.com:bhamshu/ask_sahil.git &&
+          git pull git@github.com:bhamshu/{{ env.PROJECT_NAME }}.git &&
           export OPENAI_KEY=${{ env.OPENAI_KEY }} && 
           sudo gpasswd -a $USER docker &&
           newgrp docker &&
+          cd ~/Desktop/{{ env.PROJECT_NAME }} &&
           docker-compose up --build'
