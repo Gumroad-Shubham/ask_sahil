@@ -31,11 +31,11 @@ jobs:
           ssh -o StrictHostKeyChecking=no ${{ env.SSH_USER }}@${{ env.SSH_HOST }} '
           if ! command -v docker &> /dev/null; then
             sudo apt-get update -y &&
-            sudo apt-get install -y docker.io
+            y | sudo apt-get install -y docker.io
           fi &&
           if ! command -v docker-compose &> /dev/null; then
             sudo apt-get update -y &&
-            sudo apt  install docker-compose
+            y | sudo apt  install docker-compose
           fi &&
           mkdir -p ~/Desktop/${{ env.PROJECT_NAME }} &&
           cd ~/Desktop/${{ env.PROJECT_NAME }} && 
