@@ -1,24 +1,14 @@
-# README
+This project is based on [Ask My Book](https://github.com/slavingia/askmybook/) by Sahil Lavingia [Github](https://github.com/slavingia), [Twitter](https://sahillavingia.com/), [Personal Website](https://sahillavingia.com/).
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Setup
+1. Install docker for your machine. For ubuntu
+```
+sudo apt-get update -y &&
+sudo apt-get install -y docker.io
+```
+2. From the project directory, build & run the container
+```
+docker-compose up --build
+```
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+That's it, it should get successfully hosted on [localhost](http://localhost:3000/) !
