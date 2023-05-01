@@ -9,6 +9,7 @@ env:
   EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
   SSH_USER: ubuntu
   SSH_HOST: ${{ vars.SSH_HOST }}
+  OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
 
 jobs:
   deploy:
@@ -33,5 +34,5 @@ jobs:
           mkdir -p ~/Desktop/ask_sahil &&
           cd ~/Desktop/ask_sahil && 
           git pull &&
-          docker-compose up --build
-        '
+          export OPENAI_KEY=${{ env.OPENAI_KEY }} && 
+          docker-compose up --build'
