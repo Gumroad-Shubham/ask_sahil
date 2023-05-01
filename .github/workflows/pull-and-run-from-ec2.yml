@@ -33,6 +33,13 @@ jobs:
           fi &&
           mkdir -p ~/Desktop/ask_sahil &&
           cd ~/Desktop/ask_sahil && 
-          git pull &&
+          # If github.com is not in known hosts, add it
+          if ! ssh-keygen -F "github.com" >/dev/null; then
+            # Add the host to known_hosts
+            ssh-keyscan -t rsa "$HOST" >> ~/.ssh/known_hosts
+          fi
+          ssh-keyscan github.com >> ~/.ssh/known_hosts &&  
+          git init &&
+          git pull git@github.com:bhamshu/ask_sahil.git &&
           export OPENAI_KEY=${{ env.OPENAI_KEY }} && 
           docker-compose up --build'
