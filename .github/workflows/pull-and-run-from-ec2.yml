@@ -42,7 +42,6 @@ jobs:
           git init &&
           git pull git@github.com:bhamshu/ask_sahil.git &&
           export OPENAI_KEY=${{ env.OPENAI_KEY }} && 
-          getent group somegroupname || sudo groupadd docker &&
           sudo gpasswd -a $USER docker &&
           newgrp docker &&
           docker-compose up --build'
