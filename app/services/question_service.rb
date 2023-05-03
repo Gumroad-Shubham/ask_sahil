@@ -15,10 +15,17 @@ class QuestionService
     def answer(question)
         @question = question
         if @strategy.end_with?("_ruby")
-            require File.join(__dir__, "./strategies/#{@strategy}/main")
-            return Object.const_get(snake_case_to_PascalCase(@strategy)).ask_a_question(@question)
-        else # assert that strategy name ends with "_python"
-            return Utils.run_python_function("strategies.#{@strategy}.main", 'ask_a_question', @question)
+            begin
+                require File.join(__dir__, "./strategies/#{@strategy}/main")
+                strategy_class = Object.const_get(snake_case_to_PascalCase(@strategy))
+            rescue Exception => e
+                return nil
+            end
+            return strategy_class.ask_a_question(@question)
+        elsif @strategy.end_with?("_python")
+            return Utils.run_python_function("strategies.#{@strategy}.main", 'ask_a_question', @question)            
+        else
+            return nil
         end
     end
   end

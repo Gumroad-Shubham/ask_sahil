@@ -1,5 +1,10 @@
 This project is based on [Ask My Book](https://github.com/slavingia/askmybook/) by **Sahil Lavingia** ([Github](https://github.com/slavingia) | [Twitter](https://sahillavingia.com/) | [Personal Website](https://sahillavingia.com/)).
 
+
+## Codebase
+The core logic of the application lives in the directory `./app/services/`. Questions are answered by the method `QuestionService.answer`. It is called by the api in `./app/controllers/api/v1/questions_controller.rb`. All important directories have `README`s to provide important context. 
+
+
 ## Setup
 1. Install docker for your machine. For ubuntu
 ```
