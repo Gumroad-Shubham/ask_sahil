@@ -28,21 +28,21 @@ jobs:
 
       - name: Pull & run from EC2
         run: |
-          curl https://raw.githubusercontent.com/Gumroad-Shubham/Workflows/master/ec2-setup.sh >> ./ec2-setup.sh &&
-          chmod +x ./ec2-setup.sh &&
-          ./ec2-setup.sh && 
-          rm ec2-setup.sh &&
+          # curl https://raw.githubusercontent.com/Gumroad-Shubham/Workflows/master/ec2-setup.sh >> ./ec2-setup.sh &&
+          # chmod +x ./ec2-setup.sh &&
+          # ./ec2-setup.sh && 
+          # rm ec2-setup.sh &&
           ssh -o StrictHostKeyChecking=no ${{ env.SSH_USER }}@${{ env.SSH_HOST }} '
-          if ! command -v docker &> /dev/null; then
-            sudo apt-get update -y &&
-            y | sudo apt-get install -y docker.io
-          fi &&
-          if ! command -v docker-compose &> /dev/null; then
-            sudo apt-get update -y &&
-            y | sudo apt  install docker-compose
-          fi &&
-          export OPENAI_KEY=${{ env.OPENAI_KEY }} && 
-          sudo gpasswd -a $USER docker &&
-          newgrp docker &&
+          # if ! command -v docker &> /dev/null; then
+          #   sudo apt-get update -y &&
+          #   y | sudo apt-get install -y docker.io
+          # fi &&
+          # if ! command -v docker-compose &> /dev/null; then
+          #   sudo apt-get update -y &&
+          #   y | sudo apt  install docker-compose
+          # fi &&
+          # export OPENAI_KEY=${{ env.OPENAI_KEY }} && 
+          # sudo gpasswd -a $USER docker &&
+          # newgrp docker &&
           cd ~/Desktop/${{ env.PROJECT_NAME }} &&
-          tmux new-session -d -s autodeploy`date +%s` "docker-compose up --build"'
+          tmux new-session -d -s autodeploy`date +%s` "docker-compose down && docker-compose up --build"'
