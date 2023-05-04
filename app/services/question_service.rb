@@ -13,7 +13,7 @@ class QuestionService
     end
   
     def answer(question)
-        @question = question
+        @question = question + (question.end_with?("?")?'':'?')
         if @strategy.end_with?("_ruby")
             begin
                 require File.join(__dir__, "./strategies/#{@strategy}/main")
