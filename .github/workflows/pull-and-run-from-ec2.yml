@@ -45,4 +45,5 @@ jobs:
           # sudo gpasswd -a $USER docker &&
           # newgrp docker &&
           cd ~/Desktop/${{ env.PROJECT_NAME }} &&
-          tmux new-session -d -s autodeploy`date +%s` "docker-compose down && docker-compose up --build"'
+          git pull git@github.com:Gumroad-Shubham/${{ env.PROJECT_NAME }}.git'
+          # && tmux new-session -d -s autodeploy`date +%s` "docker-compose up"
