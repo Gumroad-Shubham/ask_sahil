@@ -14,6 +14,11 @@ class QuestionService
   
     def answer(question)
         @question = question + (question.end_with?("?")?'':'?')
+        ques_obj = Question.where(question: @question, strategy: @strategy).first
+        if ques_obj
+            ques_obj.update(ask_count: ques_obj.ask_count + 1)
+            return ques_obj.answer
+        end
         if @strategy.end_with?("_ruby")
             begin
                 require File.join(__dir__, "./strategies/#{@strategy}/main")
@@ -21,12 +26,14 @@ class QuestionService
             rescue Exception => e
                 return nil
             end
-            return strategy_class.ask_a_question(@question)
+            answer = strategy_class.ask_a_question(@question)
         elsif @strategy.end_with?("_python")
-            return Utils.run_python_function("strategies.#{@strategy}.main", 'ask_a_question', @question)            
+            answer = Utils.run_python_function("strategies.#{@strategy}.main", 'ask_a_question', @question)            
         else
             return nil
         end
+        Question.create(question: @question, strategy: @strategy, answer:answer)
+        return answer
     end
   end
   
